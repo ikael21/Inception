@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  # Nginx
+  webserver:
+    container_name: nginx
+    build:
+      context: requirements/nginx/
+      dockerfile: Dockerfile
+    ports:
+      - "443:443"
+    restart: always
