@@ -1,33 +1,28 @@
 version: '3.8'
 
-
 services:
   # Nginx part
-  webserver:
+  nginx:
     container_name: nginx
     build:
       context: requirements/nginx/
       dockerfile: Dockerfile
     ports:
       - "443:443"
-    env_file:
-      - .env
     volumes:
         - web_data:/var/www/html/wordpress
     networks:
       - magic-net
     restart: always
     depends_on:
-      - db
+      - mariadb
 
   # WordPress part
-  web:
+  wordpress:
     container_name: wordpress
     build:
       context: requirements/wordpress/
       dockerfile: Dockerfile
-    stdin_open: true
-    tty: true
     env_file:
       - .env
     volumes:
@@ -36,10 +31,10 @@ services:
       - magic-net
     restart: always
     depends_on:
-      - webserver
+      - nginx
 
   # MariaDB part
-  db:
+  mariadb:
     container_name: mariadb
     build:
       context: requirements/mariadb/

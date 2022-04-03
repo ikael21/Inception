@@ -1,7 +1,5 @@
 #!/bin/sh
 
-DB_INIT="db-init"
-
 # create mariadb socket directory if not exists
 if [ ! -d "/run/mysqld" ];
 then
@@ -14,6 +12,7 @@ chown -R mysql:mysql /var/lib/mysql
 mysql_install_db --user=mysql --ldata=/var/lib/mysql > /dev/null
 
 # database init
+DB_INIT="db-init"
 cat << EOF > $DB_INIT
 USE mysql;
 FLUSH PRIVILEGES;
