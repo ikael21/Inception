@@ -31,8 +31,10 @@ down:
 # removes all running containers images
 # removes all local container images
 # removes all volumes
+# removes all networks (except default)
 reset:
-	-docker stop $(shell docker ps -qa)
-	-docker rm $(shell docker ps -qa)
-	-docker rmi -f $(shell docker images -qa)
-	-docker volume rm $(shell docker volume ls -q)
+	-docker stop $(shell docker ps -qa) 2> /dev/null
+	-docker rm $(shell docker ps -qa) 2> /dev/null
+	-docker rmi -f $(shell docker images -qa) 2> /dev/null
+	-docker volume rm $(shell docker volume ls -q) 2> /dev/null
+	-docker network rm $(shell docker network ls -q) 2> /dev/null
